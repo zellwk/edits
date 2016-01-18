@@ -1,6 +1,6 @@
 # Building a Simple CRUD Application with Express and MongoDB
 
-I thought I'd document the basics for someone who wants to learn to build their first application with Node. 
+I thought I'd document the basics for someone who wants to learn to build their first application with Node.
 
 Break something again
 
@@ -8,7 +8,7 @@ Break something again
 
 CRUD, Express and MongoDB. All these terms are big words for one who has never touched any server-side programming in their lives. Let's quickly introduce what they are before we diving into the tutorial.
 
-[Express]() is a framework for building web applications on top of Node.js. It simplifies the server creation process that is already available in Node. In case you were wondering, Node allows you to use JavaScript as your server-side language.
+[Express](http://www.google.com) is a framework for building web applications on top of Node.js. It simplifies the server creation process that is already available in Node. In case you were wondering, Node allows you to use JavaScript as your server-side language.
 
 [MongoDB]() is a database. Databases are where information related to your web application is stored.
 
@@ -22,7 +22,7 @@ CRUD, Express and MongoDB. All these terms are big words for one who has never t
 If we put CRUD, Express and MongoDB together into a single diagram, this is what it would look like:
 
 <figure>
-  ![Alt text](/path/to/img.jpg "Optional title")
+  ![](screeny.png)
 </figure>
 
 Does CRUD, Express and MongoDB makes more sense to you now?
@@ -48,7 +48,7 @@ To check if you have Node installed, open up your command line and run the follo
 $ node -v
 ```
 
-You should get a version number if you have Node installed. If you don't, you can install Node either by downloading the installer from Node's website or downloading it through package managers like [Homebrew]()(Mac) and [Chocolatey]()(Windows).
+You should get a version number if you have Node installed. If you don't, you can install Node either by downloading the installer from Node's website or downloading it through package managers like [Homebrew]() (Mac) and [Chocolatey]() (Windows).
 
 ## Getting Started
 
@@ -102,7 +102,7 @@ Once you're done, you should see that npm has saved Express as a dependency in `
   ![]()
 </figure>
 
-Next, we use express in `server.js` by requiring it. This is also how you can use other packages you've installed with npm.
+Next, we use express in `server.js` by requiring *it*. This is also how you can use other packages you've installed with npm.
 
 ```javascript
 const express = require('express');
