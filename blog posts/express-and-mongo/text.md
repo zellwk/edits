@@ -1,10 +1,12 @@
 # Building a Simple CRUD Application with Express and MongoDB
 
-I started web development without having gone through any computing courses in university previously. Because of my background, I didn't dare to venture into server-side code for a long time.
+If you know me you would have known that I started learning about the web without having gone through any computing courses in university previously. I didn't dare to venture into server-side programming for a long time because of my background. 
 
-When I eventually tried to start developing webapps with Node, I found that I had a hard time understanding documentations for both Express and MongoDB. I also had problems understanding what was CRUD. It was so difficult that I gave up then. 
+I remember when I eventually picked up the courage to try, I had such a hard time understanding the documentations for Express, MongDB and Node that I gave up. 
 
-Now, I've finally understood what these things are, so I decided to write a comprehensive tutorial so no one else would have to go through the headache I went through. 
+One year later, I finally understood how to work with these tools. Then, I decided to write a comprehensive tutorial so you won't have to go through the same headache I went through. 
+
+<!--more-->
 
 ## CRUD, Express and MongoDB
 
@@ -24,7 +26,7 @@ CRUD, Express and MongoDB are big words for a person who has never touched any s
 If we put CRUD, Express and MongoDB together into a single diagram, this is what it would look like:
 
 <figure>
-  ![](crud-express-mongo.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/crud-express-mongo.png)
 </figure>
 
 Does CRUD, Express and MongoDB makes more sense to you now?
@@ -46,9 +48,9 @@ You'll need two things to get started with this tutorial:
 
 To check if you have Node installed, open up your command line and run the following code:
 
-```bash
+~~~bash
 $ node -v
-```
+~~~
 
 You should get a version number if you have Node installed. If you don't, you can install Node either by downloading the installer from [Node's website](https://nodejs.org) or downloading it through package managers like [Homebrew](http://brew.sh) (Mac) and [Chocolatey](https://chocolatey.org) (Windows).
 
@@ -58,9 +60,9 @@ Start by creating a folder for this project. Feel free to call it anything you w
 
 This command creates a `package.json` file which helps you manage dependencies that we install later in the tutorial.
 
-```bash
+~~~bash
 $ npm init
-```
+~~~
 
 Just hit enter through everything that appears. I'll talk about the ones you need to know as we go along.
 
@@ -68,20 +70,20 @@ Just hit enter through everything that appears. I'll talk about the ones you nee
 
 The simplest way to use node is to run the `node` command, and specify a path to a file. Let's create a file called `server.js` to run node with.
 
-```bash
+~~~bash
 $ touch server.js
-```
+~~~
 
 When the execute the `server.js` file, we want to make sure it's running properly. To do so, simply write a `console.log` statement in `server.js`:
 
-```javascript
+~~~javascript
 console.log('May Node be with you')
-```
+~~~
 
 Now, run `node server.js` in your command line and you should see the statement you logged:
 
 <figure>
-  ![](node-log.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/node-log.png)
 </figure>
 
 Great. Let's move on and learn how to use Express now.
@@ -92,35 +94,35 @@ We first have to install Express before we can use it in our application. Instal
 
 Run the `npm install express --save` command in your command line:
 
-```bash
+~~~bash
 $ npm install express --save
-```
+~~~
 
 Once you're done, you should see that npm has saved Express as a dependency in `package.json`.
 
 <figure>
-  ![](exp-package-json.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/exp-package-json.png)
 </figure>
 
 Next, we use express in `server.js` by requiring it. 
 
-```javascript
+~~~javascript
 const express = require('express');
 const app = express();
-```
+~~~
 
 The first thing we want to do is to create a server where browsers can connect to. We can do so with the help of a `listen` method provided by Express: 
 
-```javascript
+~~~javascript
 app.listen(3000, function() {
   console.log('listening on 3000')
 })
-```
+~~~
 
 Now, run `node server.js` and navigate to `localhost:3000` on your browser. You should see a message that says "cannot get /".
 
 <figure>
-  ![](cannot-get.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/cannot-get.png)
 </figure>
 
 That's a good sign. It means **we can now communicate to our express server through the browser**. This is where we begin CRUD operations. 
@@ -131,9 +133,9 @@ The **READ** operation is performed by browsers whenever you visit a webpage. Un
 
 In Express, we handle a **GET** request with the `get` method:
 
-```javascript
+~~~javascript
 app.get(path, callback)
-```
+~~~
 
 **The first argument, `path`**, is the path of the GET request. It's anything that comes after your domain name. 
 
@@ -141,28 +143,28 @@ When we're visiting `localhost:3000`, our browsers are actually looking for `loc
 
 **The second argument is a callback function** that tells the server what to do when the path is matched. It takes in two arguments, a request object and a response object: 
 
-```javascript
+~~~javascript
 app.get('/', function (request, response) {
   // do something here
 })
-```
+~~~
 
 For now, let's write "Hello World" back to the browser. We do so by using a `send` method that comes with the response object: 
 
-```javascript
+~~~javascript
 app.get('/', function(req, res) {
   res.send('Hello World')
 })
 // Note: request and response are usually written as req and res respectively.
-```
+~~~
 
 I'm going to start writing in ES6 code and show you how to convert to ES6 along the way as well. First off, I'm replacing the `function()` with the [ES6 arrow function](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions). The below code is the same as the above code: 
 
-```javascript
+~~~javascript
 app.get('/', (req, res) => {
   res.send('hello world')
 })
-```
+~~~
 
 Now, restart your server by doing the following: 
 
@@ -172,28 +174,28 @@ Now, restart your server by doing the following:
 Then, navigate to `localhost:3000` on your browser. You should be able to see a string that says "Hello World". 
 
 <figure>
-  ![](get-hello-world.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/get-hello-world.png)
 </figure>
 
 Great. Let's change our app so we serve an `index.html` page back to the browser instead. To do so, we use the `sendFile` method that's provided by the `res` object. 
 
-```javascript
+~~~javascript
 app.get('/', (req, res) => {
   res.sendFile(__dirname + 'index.html')
   // Note: __dirname is the path to your current working directory. Try logging it and see what you get! 
   // Mine was '/Users/zellwk/Projects/demo-repos/crud-express-mongo' for this app.
 })
-```
+~~~
 
 In the `sendFile` method above, we told Express to serve an `index.html` file that can be found in the root of your project folder. We don't have that file yet. Let's make it now. 
 
-```bash
+~~~bash
 touch index.html
-```
+~~~
 
 Let's put some text in our `index.html` file as well: 
 
-```html
+~~~html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -204,12 +206,12 @@ Let's put some text in our `index.html` file as well:
   May Node and Express be with you.   
 </body>
 </html>
-```
+~~~
 
 Restart your server and refresh your browser. You should be able to see the results of your HTML file now.
 
 <figure>
-  ![](get-index.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/get-index.png)
 </figure>
 
 This is how Express handles a **GET** request (**READ** operation) in a nutshell.
@@ -220,9 +222,9 @@ At this point, you probably have realized that you need to restart your server w
 
 **Nodemon restarts the server automatically** whenever you save a file that the server uses. We can install Nodemon by using the following command: 
 
-```bash
+~~~bash
 $ npm install nodemon --save-dev
-```
+~~~
 
 Note: The reason we're using a `--save-dev` flag here is because we're only using Nodemon when we're developing. This flag would save Nodemon as a `devDependency` in your `package.json` file. 
 
@@ -230,13 +232,13 @@ Moving on, Nodemon behaves exactly the same as node, which means we can run our 
 
 There's one other way to run Nodemon – we can execute Nodemon from the `node_modules` folder. The code looks like this:
 
-```bash
+~~~bash
 $ ./node_modules/.bin/nodemon server.js
-```
+~~~
 
 That's a handful to type. One way to make it simpler is to create a `script` key in `package.json`. 
 
-```javascript
+~~~javascript
 {
   // ... 
   "scripts": {
@@ -244,7 +246,7 @@ That's a handful to type. One way to make it simpler is to create a `script` key
   }
   // ...
 }
-```
+~~~
 
 Now, you can run `npm run dev` to trigger `nodemon server.js`. 
 
@@ -262,41 +264,41 @@ To do so, you first have to create a `<form>` element and add it to your `index.
 2. a `method` attribute
 3. and `name` attributes on all `<input`> elements within the form
 
-```html 
+~~~html 
 <form action="/quotes" method="POST">
   <input type="text" placeholder="name" name="name">
   <input type="text" placeholder="quote" name="quote">
   <button type="submit">Submit</button>
 </form>
-```
+~~~
 
 The `action` attribute tells the browser where to navigate to in our Express app. In this case, we're navigating to `/quotes`. The `method` attribute tells the browser what to request to send. In this case, it's a POST request. 
 
 On our server, we can handle this POST request with a `post` method that Express provides. It takes the same arguments as the GET method: 
 
-```js
+~~~js
 app.post('/quotes', (req, res) => {
   console.log('Hellooooooooooooooooo!')
 })
-```
+~~~
 
 Restart your server (hopefully you've set up Nodemon so it restarts automatically) and refresh your browser. Then, enter something into your form element. You should be able to see `Hellooooooooooooooooo!` in your command line. 
 
 <figure>
-  ![](post-log.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/post-log.png)
 </figure>
 
 Great, we know that Express is handling the form for us right now. The next question is, how do we get the input values with Express? 
 
 Turns out, Express doesn't handle reading data from the `<form>` element on it's own. We have to add another package called [body-parser](https://www.npmjs.com/package/body-parser) to gain this functionality. 
 
-```bash
+~~~bash
 $ npm install body-parser --save
-```
+~~~
 
 Express allows us to add middlewares like body-parser to our application with the `use` method. You'll hear the term middleware a lot when dealing with Express. These things are basically plugins that change the request or response object before they get handled by our application. **Make sure you place body-parser before your CRUD handlers!**
 
-```js
+~~~js
 const express = require('express')
 const bodyParser= require('bodyParser')
 const app = express()
@@ -304,22 +306,22 @@ const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
 
 // All your handlers here...
-```
+~~~
 
 The `urlencoded` method within body-parser tells body-parser to extract data from the `<form>` element and add them to the `body` property in the `request` object. 
 
 Now, you should be able to see everything in the form field within the `req.body` object. Try doing a `console.log` and see what it is! 
 
-```js
+~~~js
 app.post('/quotes', (req, res) => {
   console.log(req.body)
 })
-```
+~~~
 
 You should be able to get an object similar to the following in your command line: 
 
 <figure>
-  ![](post-log-req-body.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/post-log-req-body.png)
 </figure>
 
 Hmmm. Master Yoda has spoken! Let's make sure we remember Yoda's words. It's important. We want to be able to retrieve it the next time we load our index page. 
@@ -330,50 +332,50 @@ Enter the database, MongoDB.
 
 We first have to install MongoDB through npm if we want to use it as our database. 
 
-```bash
+~~~bash
 npm install mongodb --save
-```
+~~~
 
 Once installed, we can connect to MongoDB through the `Mongo.Client`'s connect method as shown in the code below: 
 
-```javascript
+~~~javascript
 const MongoClient = require('mongodb').MongoClient
 
 MongoClient.connect('link-to-mongodb', (err, database) => {
   // ... start the server
 })
-```
+~~~
 
 The next part is to get the correct link to our database. Most people store their databases on cloud services like [MongoLab](https://mongolab.com). We're going to do same as well. 
 
 So, go ahead and create an account with MongoLab. (It's free). Once you're done, create a new MongoDB Deployment and set the plan to `sandbox`. 
 
 <figure>
-  ![](mongolab.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongolab.png)
 </figure>
 
 Once you're done creating the deployment, head into it and create a database user and database password. **Remember the database user and database password** because you're going to use it to connect the database you've just created.
 
 <figure>
-  ![](mongolab-dbuser.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongolab-dbuser.png)
 </figure>
 
 Finally, grab the MongoDB url and add it to your `MongoClient.connect` method. Make sure you use your database user and password! 
 
 <figure>
-  ![](mongo-dburl.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongo-dburl.png)
 </figure>
 
-```javascript
+~~~javascript
 MongoClient.connect('your-mongodb-url', (err, database) => {
   // ... do something here
 })
 
-```
+~~~
 
 Next, we want to start our servers only when the database is connected. Hence, let's move `app.listen` into the `connect` method. We're also going to create a `db` variable to allow us to use the database when we handle requests from the browser. 
 
-```javascript
+~~~javascript
 var db
 
 MongoClient.connect('your-mongodb-url', (err, database) => {
@@ -384,7 +386,7 @@ MongoClient.connect('your-mongodb-url', (err, database) => {
   })
 })
 
-```
+~~~
 
 We're done setting up MongoDB. Now, let's create a `quotes` collection to store quotes for our application. 
 
@@ -394,7 +396,7 @@ We can create the `quotes` collection by using the string `quotes` while calling
 
 **Once we're done saving, we have to redirect the user somewhere** (or they'll be stuck waiting forever for our server to move). In this case, we're going to redirect them back to `/`, which causes their browsers to reload.
 
-```javascript
+~~~javascript
 app.post('/quotes', (req, res) => {
   db.collection('quotes').save(req.body, (err, result) => {
     if (err) return console.log(err)
@@ -403,12 +405,12 @@ app.post('/quotes', (req, res) => {
     res.redirect('/')
   })
 })
-```
+~~~
 
 Now, if you enter something into the `<form>` element, you'll be able to see an entry in your MongoDB collection. 
 
 <figure>
-  ![](mongodb-collection.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongodb-collection.png)
 </figure>
 
 Whoohoo! Since we already have some quotes in the collection, why not try showing them to our user when they land on our page? 
@@ -424,31 +426,31 @@ Let's go one step at a time.
 
 We can get the quotes from MongoLab by using the `find` method that's available in the `collection` method. 
 
-```javascript
+~~~javascript
 app.get('/', (req, res) => {
   var cursor = db.collection('quotes').find()
 })
-```
+~~~
 
 The `find` method returns a `cursor` (A Mongo Object) that probably doesn't make sense if you `console.log` it out. 
 
 <figure>
-  ![](mongo-cursor.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongo-cursor.png)
 </figure>
 
 The good news is, this `cursor` object contains all quotes from our database. It also contains a bunch of other properties and methods that allow us to work with data easily. One such method is the `toArray` method. 
 
 **The `toArray` method** takes in a callback function that allows us to do stuff with quotes we retrieved from MongoLab. Let's try doing a `console.log()` for the results and see what we get! 
 
-```javascript
+~~~javascript
 db.collection('quotes').find().toArray(function(err, results) {
   console.log(results)
   // send HTML file populated with quotes here
 })
-```
+~~~
 
 <figure>
-  ![](mongodb-get.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/mongodb-get.png)
 </figure>
 
 Great! You now see an array of quotes (I only have one right now). We've completed the first part – getting data from MongoLab. The next part is to generate a HTML that contains all our quotes.
@@ -461,19 +463,19 @@ For this tutorial, we're going to use [Embedded JavaScript](http://www.embeddedj
 
 We can use EJS by first installing it, then setting the `view engine` in Express to `ejs`. 
 
-```bash
+~~~bash
 $ npm install ejs --save
-```
+~~~
 
-```javascript
+~~~javascript
 app.set('view engine', 'ejs')
-```
+~~~
 
 Once the `view engine` is set, we can begin generating the HTML with our quotes. This process is also called **rendering**. We can use the `render` object built into the `response` object `render` to do so. It has the following syntax:
 
-```javascript
+~~~javascript
 res.render(view, locals)
-```
+~~~
 
 **The first parameter, `views`**, is the name of the file we're rendering. This file must be placed within a `views` folder.
 
@@ -481,14 +483,14 @@ res.render(view, locals)
 
 Let's first create an `index.ejs` file within the `views` folder so we can start populating data. 
 
-```bash
+~~~bash
 mkdir views
 touch views/index.ejs
-```
+~~~
 
 Now, place the following code within `index.ejs`. 
 
-```html
+~~~html
 <ul class="quotes">
   <% for(var i=0; i<quotes.length; i++) {%>
     <li class="quote">
@@ -497,7 +499,7 @@ Now, place the following code within `index.ejs`.
     </li>
   <% } %>
 </ul>
-```
+~~~
 
 See what I mean when I say you'll find it familiar? In EJS, you can write JavaScript within `<%` and `%>` tags. You can also output JavaScript as strings if you use the `<%=` and `%>` tags.
 
@@ -505,7 +507,7 @@ Here, you can see that we're basically looping through the `quotes` array and cr
 
 One more thing to do before we move on from the `index.ejs` file. Remember to copy the `<form>` element from the `index.html` file into this file as well. The complete `index.ejs` file so far should be: 
 
-```html
+~~~html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -531,11 +533,11 @@ One more thing to do before we move on from the `index.ejs` file. Remember to co
   </form>
 </body>
 </html>
-```
+~~~
 
 Finally, we have to render this `index.ejs` file when handling the **GET** request. Here, we're setting the results (an array) as the `quotes` array we used in `index.ejs` above.
 
-```javascript
+~~~javascript
 app.get('/', (req, res) => {
   db.collection('quotes').find().toArray((err, result) => {
     if (err) return console.log(err)
@@ -543,18 +545,25 @@ app.get('/', (req, res) => {
     res.render('index.ejs', {quotes: result})
   })
 })
-```
+~~~
 
 Now, refresh your browser and you should be able to see Master Yoda's quotes. 
 
 <figure>
-  ![](get-rendered.png)
+  ![](http://www.zell-weekeat.com/wp-content/uploads/2016/01/get-rendered.png)
 </figure>
 
 Um. You maybe only have one quote if you followed the tutorial step by step until this point. The reason I have multiple quotes is because I silently added more as I worked on the application. 
 
-Well, we've covered a lot of ground in just 3000 words. There are two more operations to go, but we'll leave it to the next post. 
-
 ## Wrapping Up 
 
+We've covered a lot of ground in just 3000 words. Here are a few bullets to sum it all up. You have...
 
+- Created an Express Server
+- Learned to execute CREATE and READ operations 
+- Learned to save and read from MongoDB
+- Learned to use a template engine like Embedded JS.
+
+There are two more operations to go, but we'll leave it to the next post. Catch you there! 
+
+Oh, let me know in the comments if you found this tutorial useful! 
